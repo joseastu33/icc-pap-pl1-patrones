@@ -22,5 +22,8 @@ public class RegistroPrototipos {
         }
         return producto.copiar(idProducto); //se devuelve OTRO PRODUCTO
     }
-    
+
+    public ProductoBase obtenerPrototipo(TipoProducto tipo) {
+        return mapaPrototipos.get(tipo);
+    }
 }
