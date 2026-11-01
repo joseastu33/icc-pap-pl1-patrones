@@ -20,6 +20,7 @@ public class RegistroPrototipos {
         if(producto == null){
             throw new IllegalArgumentException("Producto no registrado: " + tipoProducto); //VERIFICAR si se ENCUENTRA
         }
+        
         return producto.copiar(idProducto); //se devuelve OTRO PRODUCTO
     }
 

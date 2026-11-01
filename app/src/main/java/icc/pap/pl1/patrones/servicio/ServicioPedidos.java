@@ -24,8 +24,6 @@ public class ServicioPedidos {
         //puedam ser diferentes
     }
 
-
-
     public Pedido crearPedido(TipoProducto tipoProd){
 
         String identificadorPedido = generarIDPedido();
@@ -36,5 +34,17 @@ public class ServicioPedidos {
         return prod; //Devuelve EL PRODUCTO ENCONTRADO POR SU TIPO E IDENTIFICADOR
     }
 
+    public List<Pedido> obtenerPedidos(){
+        return listaPedidos;
+    }
+    public Pedido buscarPedidoId(String idPedido){ //BUSCA el PEDIDO que el USUARIO quiere DECORAR
+        for(Pedido pedido : listaPedidos){
+            if(pedido.id().equals(idPedido)) { //SI EL PEDIDO COINCIDE con EL NOMBRE
+                return pedido;
+            }
+        }
+        return null;
 
+    }
 }
+
