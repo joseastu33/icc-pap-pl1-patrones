@@ -8,7 +8,7 @@ public class Ensalada extends ProductoBase{
 
     //al EXTENDER usan los ATRIBUTOS y METODOS del PADRE y PUEDEN modificar SU COMPORTAMIENTO
     public Ensalada(String id){
-        super(id, "Ensalada sencilla", new BigDecimal("3.00"), TipoProducto.ENSALADA); //valores BASE de la ENSADA
+        super("Ensalada sencilla", id, new BigDecimal("3.00"), TipoProducto.ENSALADA); //valores BASE de la ENSADA
     }
 
     @Override

@@ -7,7 +7,7 @@ import icc.pap.pl1.patrones.modelo.TipoProducto;
 public class Cafe extends ProductoBase {
 
     public Cafe(String id){
-        super(id, "Café", new BigDecimal("2.20"), TipoProducto.CAFE);
+        super("Café", id, new BigDecimal("2.20"), TipoProducto.CAFE);
     }
     @Override
     public ProductoBase copiar(String nuevoId) {
