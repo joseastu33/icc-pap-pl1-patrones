@@ -21,5 +21,9 @@ public class Queso extends DecoradorIngrediente {
     public BigDecimal precio(){
         return super.precio().add(PRECIOQUESO);
     }     
+
+    public static BigDecimal precioIngredienteQueso(){
+        return PRECIOQUESO;
+    }
     
 }

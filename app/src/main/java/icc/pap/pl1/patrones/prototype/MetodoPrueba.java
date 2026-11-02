@@ -4,6 +4,7 @@ import icc.pap.pl1.patrones.modelo.Pedido;
 import icc.pap.pl1.patrones.modelo.TipoIngrediente;
 import icc.pap.pl1.patrones.modelo.TipoProducto;
 import icc.pap.pl1.patrones.servicio.ServicioPedidos;
+import icc.pap.pl1.patrones.vista.VentanaPedidos;
 
 public class MetodoPrueba {
     public static void main(String[] args) {
@@ -135,6 +136,9 @@ public class MetodoPrueba {
         System.out.println(nuevoCafe.id());
         System.out.println(nuevoCafe.descripcion());
         System.out.println(nuevoCafe.precio());
+        
+        VentanaPedidos ventanaPrincipal = new VentanaPedidos(registro);
+        ventanaPrincipal.setVisible(true);
 
 
     }

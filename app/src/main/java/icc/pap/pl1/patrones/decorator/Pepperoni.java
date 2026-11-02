@@ -21,4 +21,8 @@ public class Pepperoni extends DecoradorIngrediente{
     public BigDecimal precio(){
         return super.precio().add(PRECIOPEPPERONI);
     }
+
+    public static BigDecimal precioIngredientePepperoni(){
+        return PRECIOPEPPERONI;
+    }
 }

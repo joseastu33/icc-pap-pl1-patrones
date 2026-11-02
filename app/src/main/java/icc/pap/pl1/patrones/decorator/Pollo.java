@@ -20,5 +20,9 @@ public class Pollo extends DecoradorIngrediente {
     @Override 
     public BigDecimal precio(){
         return super.precio().add(PRECIOPOLLO);
+    }
+
+    public static BigDecimal precioIngredientePollo(){
+        return PRECIOPOLLO;
     }    
 }

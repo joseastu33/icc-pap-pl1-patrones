@@ -22,4 +22,8 @@ public class Tomate extends DecoradorIngrediente {
         return super.precio().add(PRECIOTOMATE);
     }     
 
+    public static BigDecimal precioIngredienteTomate(){
+        return PRECIOTOMATE;
+    }
+
 }
