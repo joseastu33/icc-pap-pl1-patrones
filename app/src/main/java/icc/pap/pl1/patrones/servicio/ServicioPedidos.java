@@ -114,6 +114,8 @@ public class ServicioPedidos {
         for(int i = 0; i < listaPedidos.size(); i++){
             if(listaPedidos.get(i).id().equals(idPedido)){
                 listaPedidos.set(i, pedido); //reemplazar un elemento en una LISTA
+                System.out.println("Pedido guardado: "
+        + pedido.getClass().getSimpleName());
                 return pedido;
             }
         }

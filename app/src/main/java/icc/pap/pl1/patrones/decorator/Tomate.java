@@ -14,7 +14,7 @@ public class Tomate extends DecoradorIngrediente {
 
     @Override 
     public String descripcion(){
-        return super.descripcion() + "con Tomate"; //**super** es una REFERENCIA a la CLASE PADRE para USAR SUS METODOS
+        return super.descripcion() + " + Tomate"; //**super** es una REFERENCIA a la CLASE PADRE para USAR SUS METODOS
     }
 
     @Override 

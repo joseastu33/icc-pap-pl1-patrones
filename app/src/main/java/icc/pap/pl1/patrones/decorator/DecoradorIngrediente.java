@@ -33,5 +33,8 @@ public abstract class DecoradorIngrediente implements Pedido {
         return pedido.tipo();
     }
 
-    
+    public Pedido obtenerPedidoEnvuelto(){
+        return pedido;
+    }
 }
+

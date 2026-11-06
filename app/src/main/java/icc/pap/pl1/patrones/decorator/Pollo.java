@@ -14,7 +14,7 @@ public class Pollo extends DecoradorIngrediente {
 
     @Override 
     public String descripcion(){
-        return super.descripcion() + "con Pollo"; //**super** es una REFERENCIA a la CLASE PADRE para USAR SUS METODOS
+        return super.descripcion() + " + Pollo"; //**super** es una REFERENCIA a la CLASE PADRE para USAR SUS METODOS
     }
 
     @Override 

@@ -1,5 +1,7 @@
 package icc.pap.pl1.patrones.prototype;
 
+import icc.pap.pl1.patrones.decorator.Azucar;
+import icc.pap.pl1.patrones.decorator.Queso;
 import icc.pap.pl1.patrones.modelo.Pedido;
 import icc.pap.pl1.patrones.modelo.TipoIngrediente;
 import icc.pap.pl1.patrones.modelo.TipoProducto;
@@ -19,126 +21,187 @@ public class MetodoPrueba {
         System.out.println(cafe1 == cafe2);
 
         ProductoBase prototipo = registro.obtenerPrototipo(TipoProducto.CAFE);
-
         System.out.println(cafe1 == prototipo);
-
         ServicioPedidos servicio = new ServicioPedidos(registro);
 
-        //CA02: ServicioPedidos genera sus PROPIOS IDENTIFICADORES
+        //pedidos
         Pedido pedido1 = servicio.crearPedido(TipoProducto.CAFE);
         Pedido pedido2 = servicio.crearPedido(TipoProducto.CAFE);
 
-        System.out.println(pedido1.id());
-        System.out.println(pedido2.id());
+        //CA01: Clonar café dos veces
+        System.out.println("CA01: Clonar dos veces");
+        ProductoBase cafeUno = registro.obtenerProductoDelCatalogo(TipoProducto.CAFE, "P-001");
+        ProductoBase cafeDos = registro.obtenerProductoDelCatalogo(TipoProducto.CAFE, "P-002");
 
-        System.out.println(pedido1.precio());
-        System.out.println(pedido2.precio());
+        System.out.println(cafeUno.id());
+        System.out.println(cafeDos.id());
 
-        //CA03: 
-        Pedido personalizado = servicio.agregarIngredienteAPedido(
-        pedido1.id(), TipoIngrediente.AZUCAR
-        );
+        System.out.println(cafe1 == cafe2);
+        System.out.println(cafe1 == prototipo);
 
-        personalizado = servicio.agregarIngredienteAPedido(
-        pedido1.id(), TipoIngrediente.CREMA
-        );
+        //Salida:
+        //P-001
+        //P-002
+        //false
+        //false
 
-        System.out.println(personalizado.descripcion());
-        System.out.println(personalizado.precio());
+        //CA02: Comparar clon y objeto de registro
+        System.out.println("CA02: Clon obtenido del catálogo y el prototipo son objetos distintos");
+        System.out.println(cafe1 == prototipo);
 
-        //CA04: Comprobar que el segundo café NO SEA MODIFICADO
-        System.out.println(pedido2.id());
-        System.out.println(pedido2.descripcion());
-        System.out.println(pedido2.precio());
+        //Salida:
+        //false
 
-        //CA05
-        Pedido ensalada = servicio.crearPedido(TipoProducto.ENSALADA);
+        //CA03: Al primer Café agregar Azucar y Crema
+        System.out.println("CA03: Modificar el primer café y el segundo permanece sin ingredientes y conserva su precio");
+        Pedido pedido = servicio.agregarIngredienteAPedido(pedido1.id(), TipoIngrediente.AZUCAR);
+        pedido = servicio.agregarIngredienteAPedido(pedido1.id(), TipoIngrediente.CREMA); 
 
-        ensalada = servicio.agregarIngredienteAPedido(
-        ensalada.id(), TipoIngrediente.TOMATE
-        );
-
-        ensalada = servicio.agregarIngredienteAPedido(
-        ensalada.id(), TipoIngrediente.POLLO
-        );
-
-        System.out.println(ensalada.id());
-        System.out.println(ensalada.descripcion());
-        System.out.println(ensalada.precio());
-
-        //CA06
-        Pedido pizza = servicio.crearPedido(TipoProducto.PIZZA);
-
-        pizza = servicio.agregarIngredienteAPedido(
-        pizza.id(), TipoIngrediente.QUESO
-        );
-
-        pizza = servicio.agregarIngredienteAPedido(
-        pizza.id(), TipoIngrediente.PEPPERONI
-        );
-
-        System.out.println(pizza.id());
-        System.out.println(pizza.descripcion());
-        System.out.println(pizza.precio());
-
-        //CA07
-        try {
-        servicio.agregarIngredienteAPedido(pedido2.id(), TipoIngrediente.QUESO);
-        } catch (IllegalArgumentException e) {
-            System.out.println("Error controlado: " + e.getMessage());
-        }
+        System.out.println(pedido.descripcion());
+        System.out.println(pedido.precio());
 
         System.out.println(pedido2.descripcion());
         System.out.println(pedido2.precio());
 
-        //CA08
+        //Salida:
+        //Pedido guardado: Azucar
+        //Pedido guardado: Crema
+        //Café + Azucar + Crema
+        //3.90
+        //Café
+        //2.20
+
+        //CA04: Consultar el segundo café sin ingredientes
+        System.out.println("CA04: El segundo pedido no debe afectarse por los cambios realizados en el primer pedido");
+        Pedido pedidoDos = servicio.buscarPedidoId("P-002");
+        System.out.println(pedidoDos.descripcion());
+        System.out.println(pedidoDos.precio());
+
+        //Salida:
+        //Café
+        //2.20
+
+        //CA05:Clonar Ensalada y agregar Tomate y Pollo
+        System.out.println("CA05: Se puede crear una ensalada y añadirle dos ingredientes compatiblaes");
+        Pedido ensaladaUno = servicio.crearPedido(TipoProducto.ENSALADA);
+
+        servicio.agregarIngredienteAPedido(ensaladaUno.id(), TipoIngrediente.TOMATE);
+        servicio.agregarIngredienteAPedido(ensaladaUno.id(), TipoIngrediente.POLLO);
+
+        Pedido pedidoEnsalada = servicio.buscarPedidoId(ensaladaUno.id());
+
+        System.out.println(pedidoEnsalada.descripcion());
+        System.out.println(pedidoEnsalada.precio());
+
+        //Salida:
+        //Ensalada + Tomate + Pollo
+        //5.60
+
+        //CA06:Clonar Pizza y agregar Queso y Pepperoni
+        System.out.println("CA06: Se puede crear una pizza y añadirle dos ingredientes compatibles");
+        Pedido pizzaUno = servicio.crearPedido(TipoProducto.PIZZA);
+
+        servicio.agregarIngredienteAPedido(pizzaUno.id(), TipoIngrediente.QUESO);
+        servicio.agregarIngredienteAPedido(pizzaUno.id(), TipoIngrediente.PEPPERONI);
+
+        Pedido pedidoPizza = servicio.buscarPedidoId(pizzaUno.id());
+
+        System.out.println(pedidoPizza.descripcion());
+        System.out.println(pedidoPizza.precio());
+
+        //Salida:
+        //Pedido guardado: Queso
+        //Pedido guardado: Pepperoni
+        //Pizza sencilla + Queso + Pepperoni
+        //7.10
+
+        //CA07:Intentar agregar Queso a Café
+        System.out.println("CA07: Intentar agregar ingrediente compatible y rechazo al hacerlo ");
+        Pedido cafe = servicio.crearPedido(TipoProducto.CAFE);
+
         try {
-        servicio.agregarIngredienteAPedido("P-999", TipoIngrediente.AZUCAR);
+            servicio.agregarIngredienteAPedido(
+            cafe.id(), TipoIngrediente.QUESO);
         } catch (IllegalArgumentException e) {
-            System.out.println("Error controlado: " + e.getMessage());
-        }
-        System.out.println("Cantidad de pedidos: " + servicio.obtenerPedidos().size());
+            System.out.println("Error: " + e.getMessage());}
 
-        //CA09
+        Pedido cafeConsultado = servicio.buscarPedidoId(cafe.id());
+
+        System.out.println(cafeConsultado.descripcion());
+        System.out.println(cafeConsultado.precio());
+
+        //Salida: 
+        //Error: Ingrediente no compatible
+        //Café
+        //2.20
+
+        //CA08:Agregar ingredientes sin pedido seleccionado
+        System.out.println("CA08: Intenta agregar ingredientes a un pedido inexistente y lo rechaza");
         try {
-        servicio.crearPedido(null);
+            servicio.agregarIngredienteAPedido("P-999", TipoIngrediente.AZUCAR);
         } catch (IllegalArgumentException e) {
-            System.out.println("Error controlado: " + e.getMessage());
-        }
+            System.out.println("Error: " + e.getMessage());}
+        
+            //Salida:
+        //Error: Pedido no encontrado
 
-        System.out.println("Cantidad de pedidos: " + servicio.obtenerPedidos().size());
+        //CA09:Solicitar clon de clave inexistente
+        System.out.println("CA09: Verifica que se rechace una clave que no es perteneciente al enum");
+        try {
+            TipoProducto tipoInexistente = TipoProducto.valueOf("HAMBURGUESA");
 
-        // COMPROBAR PEDIDOS REGISTRADOS
-        for (Pedido p : servicio.obtenerPedidos()) {
-            System.out.println("ID: " + p.id()
-            + " | Producto: " + p.descripcion());}
+            registro.obtenerProductoDelCatalogo(tipoInexistente, "P-009");
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error: " + e.getMessage());}
 
-        // CA10
-        Pedido cafeDobleAzucar = servicio.buscarPedidoId("P-002");
+        //Salida:
+        //Error: 
+        // No enum constant icc.pap.pl1.patrones.modelo.TipoProducto.HAMBURGUESA
 
-        cafeDobleAzucar = servicio.agregarIngredienteAPedido(
-        cafeDobleAzucar.id(), TipoIngrediente.AZUCAR);
+        //CA10:Agregar dos veces Azúcar a un Café
+        System.out.println("CA10: Se comprueba que se puede agregar dos veces el mismo ingrediente compatible");
+        Pedido cafeAgregarDos= servicio.crearPedido(TipoProducto.CAFE);
 
-        cafeDobleAzucar = servicio.agregarIngredienteAPedido(
-        cafeDobleAzucar.id(), TipoIngrediente.AZUCAR);
+        servicio.agregarIngredienteAPedido(cafeAgregarDos.id(), TipoIngrediente.AZUCAR);
+        servicio.agregarIngredienteAPedido(cafeAgregarDos.id(), TipoIngrediente.AZUCAR);
 
-        System.out.println(cafeDobleAzucar.id());
-        System.out.println(cafeDobleAzucar.descripcion());
-        System.out.println(cafeDobleAzucar.precio());
-        //CA11
+        Pedido cafeConsultadoDos = servicio.buscarPedidoId(cafeAgregarDos.id());
+
+        System.out.println(cafeConsultadoDos.descripcion());
+        System.out.println(cafeConsultadoDos.precio());
+
+        //Salida:
+        //Pedido guardado: Azucar
+        //Pedido guardado: Azucar
+        //Café + Azúcar + Azúcar
+        //3.20
+
+        //CA11: Reiniciar y volver a clonar Café
+        System.out.println("CA11: El reinicio de la lista no destruye el catálogo");
         servicio.reiniciarPedidos();
 
-        System.out.println("Cantidad de pedidos: "
-        + servicio.obtenerPedidos().size());
-
+        System.out.println(servicio.obtenerPedidos().size());
         Pedido nuevoCafe = servicio.crearPedido(TipoProducto.CAFE);
 
         System.out.println(nuevoCafe.id());
         System.out.println(nuevoCafe.descripcion());
         System.out.println(nuevoCafe.precio());
-        
-        VentanaPedidos ventanaPrincipal = new VentanaPedidos(registro);
-        ventanaPrincipal.setVisible(true);
+
+        //Salida:
+        //0
+        //P-007
+        //Café
+        //2.20
+
+        //inicializacion de la ventana
+        VentanaPedidos ventana = new VentanaPedidos(registro);
+        ventana.setVisible(true);
+
+
+
+
+
+
 
 
     }

@@ -14,7 +14,7 @@ public class Pepperoni extends DecoradorIngrediente{
 
     @Override 
     public String descripcion(){
-        return super.descripcion() + "con Pepperoni"; //**super** es una REFERENCIA a la CLASE PADRE para USAR SUS METODOS
+        return super.descripcion() + " + Pepperoni"; //**super** es una REFERENCIA a la CLASE PADRE para USAR SUS METODOS
     }
 
     @Override 

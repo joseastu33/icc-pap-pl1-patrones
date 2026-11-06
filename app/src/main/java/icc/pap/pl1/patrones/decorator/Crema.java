@@ -14,7 +14,7 @@ public class Crema extends DecoradorIngrediente {
 
     @Override 
     public String descripcion(){
-        return super.descripcion() + "con Crema"; //**super** es una REFERENCIA a la CLASE PADRE para USAR SUS METODOS
+        return super.descripcion() + " + Crema"; //**super** es una REFERENCIA a la CLASE PADRE para USAR SUS METODOS
     }
 
     @Override 

@@ -14,7 +14,7 @@ public class Azucar extends DecoradorIngrediente {
     
     @Override 
     public String descripcion(){
-        return super.descripcion() + "con Azúcar"; //**super** es una REFERENCIA a la CLASE PADRE para USAR SUS METODOS
+        return super.descripcion() + " + Azúcar"; //**super** es una REFERENCIA a la CLASE PADRE para USAR SUS METODOS
     }
 
     @Override 
