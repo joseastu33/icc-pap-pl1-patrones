@@ -21,10 +21,10 @@ public class RegistroPrototipos {
             throw new IllegalArgumentException("Producto no registrado: " + tipoProducto); //VERIFICAR si se ENCUENTRA
         }
         
-        return producto.copiar(idProducto); //se devuelve OTRO PRODUCTO
+        return producto.copiar(idProducto); //se devuelve un CLON (ESTE es el PATRON PROTOTYPE)
     }
 
-    public ProductoBase obtenerPrototipo(TipoProducto tipo) {
+    public ProductoBase obtenerPrototipo(TipoProducto tipo) { //hace la copia
         return mapaPrototipos.get(tipo);
     }
 }

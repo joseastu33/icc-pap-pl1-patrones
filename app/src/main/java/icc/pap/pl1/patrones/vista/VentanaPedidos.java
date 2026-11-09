@@ -4,6 +4,7 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -32,6 +33,9 @@ import icc.pap.pl1.patrones.decorator.Tomate;
 import icc.pap.pl1.patrones.modelo.Pedido;
 import icc.pap.pl1.patrones.modelo.TipoIngrediente;
 import icc.pap.pl1.patrones.modelo.TipoProducto;
+import icc.pap.pl1.patrones.prototype.Cafe;
+import icc.pap.pl1.patrones.prototype.Ensalada;
+import icc.pap.pl1.patrones.prototype.Pizza;
 import icc.pap.pl1.patrones.prototype.RegistroPrototipos;
 import icc.pap.pl1.patrones.servicio.ServicioPedidos;
 
@@ -42,6 +46,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -437,9 +442,37 @@ public class VentanaPedidos extends JFrame{
     }
 
     private void mostrarDetallePedido(Pedido pedido){
-        lblIdPedido.setText("ID de pedido: " + pedido.id());
-        lblProductoPedido.setText("Producto: " + pedido.descripcion());
-        lblProductoPedido.setFont(new Font("Consolas", Font.BOLD, 20));
+    lblIdPedido.setText("ID de pedido: " + pedido.id());
+
+    // Obtener producto e ingredientes en orden
+    List<Pedido> elementos = obtenerElementosPedido(pedido);
+
+    // Mostrar únicamente la descripción del producto base
+    lblProductoPedido.setText("Producto: " + elementos.get(0).descripcion());
+    lblProductoPedido.setFont(new Font("Consolas", Font.BOLD, 20));
+
+    // Limpiar composición anterior
+    pnlComposicionVisual.removeAll();
+
+    // Recorrer producto e ingredientes
+    for (int i = 0; i < elementos.size(); i++) {
+
+        Pedido elemento = elementos.get(i);
+
+        // Agregar signo + entre los elementos
+        if (i > 0) {
+            JLabel lblMas = new JLabel("+");
+            lblMas.setFont(new Font("Consolas", Font.BOLD, 25));
+            pnlComposicionVisual.add(lblMas);
+        }
+
+        // Agregar imagen y nombre
+        pnlComposicionVisual.add(crearPanelImagen(elemento));
+    }
+
+    pnlComposicionVisual.revalidate();
+    pnlComposicionVisual.repaint();
+
     }
 
     private void mostrarIngredientes(Pedido pedido){
@@ -451,7 +484,7 @@ public class VentanaPedidos extends JFrame{
             System.out.println("Decorador encontrado: " + decorador.getClass().getSimpleName());
 
             JLabel lblIngrediente =  new JLabel(decorador.getClass().getSimpleName());
-            lblIngrediente.setFont(new Font("Consola", Font.PLAIN, 15));
+            lblIngrediente.setFont(new Font("Consolas", Font.PLAIN, 15));
             pnlListaIngredientes.add(lblIngrediente);
             actual = decorador.obtenerPedidoEnvuelto();
         }
@@ -523,11 +556,80 @@ public class VentanaPedidos extends JFrame{
 
     return elementos;
     }
-    List<Pedido> elementos = obtenerElementosPedido(pedido);
+    //a partir del OBJETO devolver la RUTA DE LA IMAGEN
+    private String obtenerRutaImagen(Pedido elementoPedido) {
 
-    for (Pedido elemento : elementos) {
-        System.out.println(elemento.getClass().getSimpleName());
+    if (elementoPedido instanceof Cafe) {
+        return "/imagenes/cafe.png";
+
+    } else if (elementoPedido instanceof Ensalada) {
+        return "/imagenes/ensalada.png";
+
+    } else if (elementoPedido instanceof Pizza) {
+        return "/imagenes/pizzasencilla.png";
+
+    } else if (elementoPedido instanceof Azucar) {
+        return "/imagenes/azucar.png";
+
+    } else if (elementoPedido instanceof Crema) {
+        return "/imagenes/crema.png";
+
+    } else if (elementoPedido instanceof Tomate) {
+        return "/imagenes/tomate.png";
+
+    } else if (elementoPedido instanceof Pollo) {
+        return "/imagenes/pollo.png";
+
+    } else if (elementoPedido instanceof Queso) {
+        return "/imagenes/queso.png";
+
+    } else if (elementoPedido instanceof Pepperoni) {
+        return "/imagenes/pepperoni.png";
     }
 
+    return null;
+    }
+    private JPanel crearPanelImagen(Pedido elemento) {
+
+    JPanel panel = new JPanel();
+    panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+    panel.setOpaque(false);
+
+    String ruta = obtenerRutaImagen(elemento);
+
+    JLabel lblImagen = new JLabel();
+    lblImagen.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+    if (ruta != null) {
+
+        java.net.URL recurso = getClass().getResource(ruta);
+
+        if (recurso != null) {
+
+            ImageIcon icono = new ImageIcon(recurso);
+
+            Image imagen = icono.getImage().getScaledInstance(
+                110, 110, Image.SCALE_SMOOTH
+            );
+
+            lblImagen.setIcon(new ImageIcon(imagen));
+
+        } else {
+            lblImagen.setText("Imagen no encontrada");
+        }
+
+    } else {
+        lblImagen.setText("Sin imagen");
+    }
+
+    JLabel lblNombre = new JLabel(elemento.getClass().getSimpleName());
+    lblNombre.setFont(new Font("Consolas", Font.BOLD, 14));
+    lblNombre.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+    panel.add(lblImagen);
+    panel.add(lblNombre);
+
+    return panel;
+}
 
 }

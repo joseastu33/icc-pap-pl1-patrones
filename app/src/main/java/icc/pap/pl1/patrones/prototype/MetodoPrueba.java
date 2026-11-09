@@ -196,6 +196,47 @@ public class MetodoPrueba {
         //inicializacion de la ventana
         VentanaPedidos ventana = new VentanaPedidos(registro);
         ventana.setVisible(true);
+        
+        RegistroPrototipos catalogoProd = new RegistroPrototipos(); //creamos el CATALOGO
+        //permite CONSULTAR y devolver un PRODUCTO del MAPA
+        //necesitamos hacer de ese producto un PEDIDO
+
+        ServicioPedidos servP = new ServicioPedidos(catalogoProd); //creamos el GESTOR de COPIAS de Productos del CATALOGO
+        //recibimos el catalogo para usar sus Metodos
+
+        Pedido pedidoDePrueba = servP.crearPedido(TipoProducto.PIZZA); //busca el TipoProducto en el CATALOGO
+        Pedido pedidoDePruebaDos = servP.crearPedido(TipoProducto.PIZZA);
+
+        servP.agregarIngredienteAPedido("P-001", TipoIngrediente.QUESO);
+
+        Pedido pedidoDePruebaVuelta = servP.buscarPedidoId("P-001"); //retornar el primer pedido
+        Pedido pedidoDePruebaDosVuelta = servP.buscarPedidoId("P-002");
+        System.out.println("PRIMER PEDIDO: " + pedidoDePruebaVuelta.descripcion());
+        System.out.println("SEGUNDO PEDIDO: " + pedidoDePruebaDosVuelta.descripcion());
+        System.out.println("Son instancias iguales?" + " " + pedidoDePruebaVuelta.equals(pedidoDePruebaDosVuelta));
+
+        pedidoDePruebaVuelta = pedidoDePruebaDos;
+        System.out.println("Son instancias iguales?" + " " + pedidoDePruebaVuelta.equals(pedidoDePruebaDosVuelta));
+
+        //Demostración DECORATOR
+        servP.agregarIngredienteAPedido("P-001", TipoIngrediente.PEPPERONI);
+        //se ENVUELVE a un decorador QUESO que ENVUELVE al PEDIDO
+        Pedido pedidoAgregadoVuelta = servP.buscarPedidoId("P-001");
+        System.out.println("PRECIO DECORADO: " + pedidoAgregadoVuelta.precio());
+        System.out.println("PEDIDO DECORADO: " + pedidoAgregadoVuelta.descripcion());
+
+        //pedido que contiene a hamburguesa
+        ServicioPedidos servPedidoHamburguesa = new ServicioPedidos(new RegistroPrototipos());
+        Pedido pedidoH = servPedidoHamburguesa.crearPedido(TipoProducto.HAMBURGUESA);
+        servPedidoHamburguesa.agregarIngredienteAPedido("P-004", TipoIngrediente.TOMATE);
+        
+        System.out.println("DESCRIPCION HAMBURGUESA: " + servPedidoHamburguesa.buscarPedidoId("P-004").descripcion());
+        System.out.println("PRECIO HAMBURGUESA: " + servPedidoHamburguesa.buscarPedidoId("P-004").precio());
+
+
+        
+
+
 
 
 

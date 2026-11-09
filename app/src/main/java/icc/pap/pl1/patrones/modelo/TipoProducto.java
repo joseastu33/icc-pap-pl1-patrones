@@ -9,5 +9,6 @@ public enum TipoProducto {
     /// Problema: los tres metodos hacen la misma pregunta ¿que producto es? , es responsabilidad repetida
     CAFE,
     PIZZA,
-    ENSALADA
+    ENSALADA,
+    HAMBURGUESA
 }
