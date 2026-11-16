@@ -1,3 +1,13 @@
+## Mockup - Boceto realizado
+
+![alt text](image-12.png)
+
+## Mockup - Mejorado con Stitch AI
+
+![alt text](image-13.png)
+
+
+
 # Evidencias APP1 — PedidoLab
 
 **Repositorio:** https://github.com/joseastu33/icc-pap-pl1-patrones.git
